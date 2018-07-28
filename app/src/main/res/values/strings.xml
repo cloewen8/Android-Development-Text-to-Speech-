@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Text to Speech</string>
+    <string name="title">Android
+Talker</string>
+    <string name="points">%d points</string>
+
+    <string-array name="words">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
 </resources>
