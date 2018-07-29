@@ -7,13 +7,69 @@
     tools:context=".GameActivity">
 
     <TextView
+        android:id="@+id/points_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_dark"
         android:gravity="center"
-        android:padding="8dp"
-        android:text="^ Top ^"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:padding="@dimen/padding"
+        android:text="@string/points"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/game_title_frame_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/holo_orange_light"
+        app:layout_constraintBottom_toBottomOf="@+id/game_avatar_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/game_avatar_image_view"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/points_text_view">
+
+        <TextView
+            android:id="@+id/game_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center|start"
+            android:padding="@dimen/padding"
+            android:text="@string/title"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/game_avatar_image_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/avatar_description"
+        android:maxWidth="10dp"
+        android:padding="@dimen/padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/game_title_frame_layout"
+        app:layout_constraintTop_toBottomOf="@+id/points_text_view"
+        app:srcCompat="@drawable/ic_android_mascot" />
+
+    <GridView
+        android:id="@+id/game_words_grid_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/avatar_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_avatar_image_view" />
 
 </android.support.constraint.ConstraintLayout>

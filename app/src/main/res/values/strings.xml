@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Text to Speech</string>
-    <string name="title">Android
-Talker</string>
+    <string name="title">Android\nTalker</string>
     <string name="points">%d points</string>
+    <string name="avatar_description">The main character, a green cylindrical bot.</string>
 
     <string-array name="words">
         <item>A</item>
