@@ -12,5 +12,6 @@
         android:background="@drawable/b_background"
         android:padding="8dp"
         android:rotation="-5"
+        tools:text="word"
         android:textColor="@android:color/white" />
 </FrameLayout>
