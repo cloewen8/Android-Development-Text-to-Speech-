@@ -27,6 +27,7 @@ public class GameActivity extends AppCompatActivity
     private static final Locale LANG = Locale.CANADA;
     private static final int CHECK_TTS_REQUEST = 0;
 
+    private SoundEffects mSoundEffects;
     private GridView mWordsView;
     private TextToSpeech mTTS;
     private boolean mTTSLoaded;
@@ -40,6 +41,7 @@ public class GameActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        mSoundEffects = new SoundEffects();
         mTTSLoaded = false;
         bindViews();
 
@@ -49,13 +51,14 @@ public class GameActivity extends AppCompatActivity
         checkTTS.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTS, CHECK_TTS_REQUEST);
 
-        // todo: Build sound pool for sound effects.
+        mSoundEffects.loadSounds(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+        mSoundEffects.unloadSounds();
         if (mTTS != null) {
             mTTS.shutdown();
         }
@@ -87,8 +90,7 @@ public class GameActivity extends AppCompatActivity
             mTTS.setLanguage(LANG);
 
             mTTSLoaded = true;
-            // todo: Check if sound effects loaded.
-            if (true) {
+            if (mSoundEffects.hasLoaded()) {
                 finishLoading();
             }
         } else if (status == TextToSpeech.ERROR) {
@@ -106,6 +108,7 @@ public class GameActivity extends AppCompatActivity
         // todo: Award points.
 
         // todo: Play button sound.
+        mSoundEffects.playButtonSound();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null, word);
