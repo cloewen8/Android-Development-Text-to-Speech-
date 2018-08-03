@@ -27,20 +27,20 @@
         <item>Was</item>
     </string-array>
     <string-array name="matches">
-        <item>Apple Works</item>
-        <item>Better Feature</item>
-        <item>New Project</item>
-        <item>Better Project</item>
-        <item>I Like Android</item>
-        <item>Pixel Was Better</item>
-        <item>It Is A Feature</item>
-        <item>So New And Shiny</item>
-        <item>I Like This Project</item>
-        <item>The New Feature Works</item>
-        <item>Android Is Better Than Apple</item>
-        <item>Works Better Than Apple</item>
-        <item>So Shiny</item>
-        <item>Shiny And New</item>
-        <item>It Works</item>
+        <item>apple works</item>
+        <item>better feature</item>
+        <item>new project</item>
+        <item>better project</item>
+        <item>i like android</item>
+        <item>pixel was better</item>
+        <item>it is a feature</item>
+        <item>so new and shiny</item>
+        <item>i like this project</item>
+        <item>the new feature works</item>
+        <item>android is better than apple</item>
+        <item>works better than apple</item>
+        <item>so shiny</item>
+        <item>shiny and new</item>
+        <item>it works</item>
     </string-array>
 </resources>

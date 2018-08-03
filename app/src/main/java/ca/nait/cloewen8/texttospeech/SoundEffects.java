@@ -1,6 +1,5 @@
 package ca.nait.cloewen8.texttospeech;
 
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
@@ -39,13 +38,14 @@ public class SoundEffects implements SoundPool.OnLoadCompleteListener {
         return mPoolLoaded;
     }
 
-    private Pair<Float, Float> getVolume() {
-        // todo: Set the left and right volume based on button press position.
-        return new Pair<Float, Float>(0.3f, 0.3f);
+    private Pair<Float, Float> getVolume(float direction) {
+        // Get the amount on either side of the direction ([0..1]).
+        // 0 being left, 1 being right.
+        return new Pair<Float, Float>((1f - direction)*0.3f, direction*0.3f);
     }
 
-    protected void playButtonSound() {
-        Pair<Float, Float> volume = getVolume();
+    protected void playButtonSound(float direction) {
+        Pair<Float, Float> volume = getVolume(direction);
         mPool.play(mButtonSoundId, volume.first, volume.second, 0, 0, 1);
     }
 }

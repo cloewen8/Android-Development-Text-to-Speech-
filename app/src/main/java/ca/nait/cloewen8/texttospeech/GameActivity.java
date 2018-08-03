@@ -8,11 +8,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -21,18 +22,21 @@ import java.util.Locale;
 
 public class GameActivity extends AppCompatActivity
     implements TextToSpeech.OnInitListener,
-    View.OnClickListener {
+    View.OnTouchListener {
 
     private static final String TAG = "GameActivity";
     private static final Locale LANG = Locale.CANADA;
     private static final int CHECK_TTS_REQUEST = 0;
 
     private SoundEffects mSoundEffects;
+
     private GridView mWordsView;
     private TextToSpeech mTTS;
     private boolean mTTSLoaded;
+    private Points mPoints;
 
     private void bindViews() {
+
         mWordsView = findViewById(R.id.game_words_grid_view);
     }
 
@@ -45,7 +49,8 @@ public class GameActivity extends AppCompatActivity
         mTTSLoaded = false;
         bindViews();
 
-        // todo: Set the points.
+        mPoints = new Points();
+        mPoints.load(this);
 
         Intent checkTTS = new Intent();
         checkTTS.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -59,9 +64,8 @@ public class GameActivity extends AppCompatActivity
         super.onDestroy();
 
         mSoundEffects.unloadSounds();
-        if (mTTS != null) {
+        if (mTTS != null)
             mTTS.shutdown();
-        }
     }
 
     @Override
@@ -101,20 +105,33 @@ public class GameActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClick(View v) {
-        String word = ((Button) v).getText().toString();
-        Log.i(TAG, "Word requested: " + word);
+    public boolean onTouch(View v, MotionEvent event) {
+        boolean performed;
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            String word = ((Button) v).getText().toString();
+            Log.i(TAG, "Word requested: " + word);
 
-        // todo: Award points.
+            mPoints.addPicked(word);
 
-        // todo: Play button sound.
-        mSoundEffects.playButtonSound();
+            // Get the direction to play audio from the touch position.
+            DisplayMetrics metrics = new DisplayMetrics();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                mWordsView.getDisplay().getMetrics(metrics);
+            } else {
+                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            }
+            mSoundEffects.playButtonSound(event.getRawX()/metrics.widthPixels);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null, word);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null, word);
+            } else {
+                mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+            }
+            performed = true;
         } else {
-            mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+            performed = v.performClick();
         }
+        return performed;
     }
 
     protected boolean hasLoaded() {
@@ -122,6 +139,7 @@ public class GameActivity extends AppCompatActivity
     }
 
     protected void finishLoading() {
+        // Add the word buttons.
         mWordsView.setAdapter(new ArrayAdapter<String>(this,
             R.layout.item_word,
             getResources().getStringArray(R.array.words)) {
@@ -133,7 +151,7 @@ public class GameActivity extends AppCompatActivity
                 View view = inflator.inflate(R.layout.item_word, parent, false);
                 Button button = view.findViewById(R.id.word_button);
                 button.setText(getItem(position));
-                button.setOnClickListener(GameActivity.this);
+                button.setOnTouchListener(GameActivity.this);
                 return view;
             }
         });
