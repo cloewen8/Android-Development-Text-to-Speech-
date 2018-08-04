@@ -1,0 +1,32 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <PreferenceCategory android:title="@string/settings_title_sound">
+
+        <SwitchPreference
+            android:defaultValue="@bool/settings_default_effectsEnabled"
+            android:key="@string/settings_key_effectsEnabled"
+            android:summary="@string/settings_summary_effectsEnabled"
+            android:title="@string/settings_title_effectsEnabled" />
+        <SwitchPreference
+            android:defaultValue="@bool/settings_default_stereoMono"
+            android:key="@string/settings_key_stereoMono"
+            android:summary="@string/settings_summary_stereoMono"
+            android:title="@string/settings_title_stereoMono" />
+        <net.jayschwa.android.preference.SliderPreference
+            android:defaultValue="@fraction/settings_default_direction"
+            android:key="@string/settings_key_direction"
+            android:summary="@string/settings_summary_direction"
+            android:title="@string/settings_title_direction" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_title_gameplay">
+
+        <EditTextPreference
+            android:defaultValue="@integer/settings_default_scoreMult"
+            android:key="@string/settings_key_scoreMult"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/settings_summary_scoreMult"
+            android:title="@string/settings_title_scoreMult" />
+    </PreferenceCategory>
+</PreferenceScreen>

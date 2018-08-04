@@ -7,7 +7,7 @@
     tools:context=".GameActivity">
 
     <TextView
-        android:id="@+id/points_text_view"
+        android:id="@+id/game_points_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_orange_dark"
@@ -25,11 +25,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/holo_orange_light"
-        app:layout_constraintBottom_toBottomOf="@+id/game_avatar_image_view"
+        app:layout_constraintBottom_toTopOf="@+id/game_settings_button"
         app:layout_constraintEnd_toStartOf="@+id/game_avatar_image_view"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/points_text_view">
+        app:layout_constraintTop_toBottomOf="@+id/game_points_text_view">
 
         <TextView
             android:id="@+id/game_title_text_view"
@@ -38,7 +38,7 @@
             android:gravity="center|start"
             android:padding="@dimen/padding"
             android:text="@string/title"
-            android:textColor="@android:color/holo_green_dark"
+            android:textColor="@android:color/holo_green_light"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/game_title_frame_layout"
-        app:layout_constraintTop_toBottomOf="@+id/points_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/game_points_text_view"
         app:srcCompat="@drawable/ic_android_mascot" />
 
     <GridView
@@ -75,5 +75,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/game_avatar_image_view" />
+
+    <Button
+        android:id="@+id/game_settings_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_dark"
+        android:onClick="onSettingsRequested"
+        android:text="@string/title_settings"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/game_words_grid_view"
+        app:layout_constraintEnd_toStartOf="@+id/game_avatar_image_view"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

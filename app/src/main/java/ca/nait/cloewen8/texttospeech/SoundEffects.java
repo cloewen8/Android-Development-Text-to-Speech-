@@ -1,5 +1,6 @@
 package ca.nait.cloewen8.texttospeech;
 
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
@@ -39,13 +40,28 @@ public class SoundEffects implements SoundPool.OnLoadCompleteListener {
     }
 
     private Pair<Float, Float> getVolume(float direction) {
-        // Get the amount on either side of the direction ([0..1]).
-        // 0 being left, 1 being right.
-        return new Pair<Float, Float>((1f - direction)*0.3f, direction*0.3f);
+        Pair<Float, Float> volume;
+        SharedPreferences prefs = mActivity.getPreferences();
+        if (prefs.getBoolean(mActivity.getString(R.string.settings_key_stereoMono), true)) {
+            // Get the amount on either side of the direction ([0..1]).
+            // 0 being left, 1 being right.
+            float preferred = prefs.getFloat(
+                mActivity.getString(R.string.settings_key_direction),
+                0.5f);
+            volume = new Pair<Float, Float>((1f - preferred)*(1f - direction)*0.3f, preferred*direction*0.3f);
+        } else {
+            volume = new Pair<Float, Float>(0.3f, 0.3f);
+        }
+        return volume;
     }
 
     protected void playButtonSound(float direction) {
-        Pair<Float, Float> volume = getVolume(direction);
-        mPool.play(mButtonSoundId, volume.first, volume.second, 0, 0, 1);
+        if (mActivity.getPreferences().getBoolean(
+            mActivity.getString(R.string.settings_key_effectsEnabled),
+            true)) {
+
+            Pair<Float, Float> volume = getVolume(direction);
+            mPool.play(mButtonSoundId, volume.first, volume.second, 0, 0, 1);
+        }
     }
 }

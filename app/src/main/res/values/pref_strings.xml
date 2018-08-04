@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+    <string name="settings_key_"></string>
+    <string name="settings_title_"></string>
+    <string name="settings_summary_"></string>
+    < name="settings_default_">true</>
+    -->
+    <string name="settings_title_sound">Sound</string>
+
+    <string name="settings_key_effectsEnabled">effectsEnabled</string>
+    <string name="settings_title_effectsEnabled">Sound Effects Enabled</string>
+    <string name="settings_summary_effectsEnabled">Will sound effects play (button presses).</string>
+    <bool name="settings_default_effectsEnabled">true</bool>
+
+    <string name="settings_key_stereoMono">stereoMono</string>
+    <string name="settings_title_stereoMono">Stereo or Mono</string>
+    <string name="settings_summary_stereoMono">Should the volume vary between speakers or play at a consistent volume.</string>
+    <bool name="settings_default_stereoMono">false</bool>
+
+    <string name="settings_key_direction">direction</string>
+    <string name="settings_title_direction">Sound Direction</string>
+    <string name="settings_summary_direction">Which direction (left to right) should be preferred when playing sounds in stereo.</string>
+    <fraction name="settings_default_direction">0.5</fraction>
+
+    <string name="settings_title_gameplay">Gameplay</string>
+
+    <string name="settings_key_scoreMult">scoreMult</string>
+    <string name="settings_title_scoreMult">Score Multiplier</string>
+    <string name="settings_summary_scoreMult">How much should each word be worth in points.</string>
+    <integer name="settings_default_scoreMult">100</integer>
+</resources>

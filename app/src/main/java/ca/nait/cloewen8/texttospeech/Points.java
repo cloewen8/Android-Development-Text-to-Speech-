@@ -9,23 +9,23 @@ import java.util.ArrayList;
 public class Points {
     private static final int MAX_WORDS = 5;
 
-    private Resources mRes;
+    private GameActivity mActivity;
     private TextView mPointsView;
     private long mPoints;
     private ArrayList<String[]> mSeq;
     private ArrayList<String[]> mFoundSeq;
     private ArrayList<String> mPicked;
 
-    protected void load(Activity activity) {
-        mRes = activity.getResources();
-        mPointsView = activity.findViewById(R.id.points_text_view);
+    protected void load(GameActivity activity) {
+        mActivity = activity;
+        mPointsView = activity.findViewById(R.id.game_points_text_view);
         mPoints = 0;
         mSeq = new ArrayList<String[]>();
         mFoundSeq = new ArrayList<String[]>();
         mPicked = new ArrayList<String>();
 
         // todo: Sort by length (longest first).
-        for (String seq : mRes.getStringArray(R.array.matches)) {
+        for (String seq : mActivity.getResources().getStringArray(R.array.matches)) {
             mSeq.add(seq.split(" "));
         }
         addPoints(0);
@@ -76,8 +76,9 @@ public class Points {
     }
 
     private void addPoints(int earned) {
-        // todo: Apply the points multiplier.
-        mPoints += earned;
-        mPointsView.setText(mRes.getString(R.string.points, mPoints));
+        mPoints += earned*
+            Integer.parseInt(mActivity.getPreferences().getString(mActivity.getString(R.string.settings_key_scoreMult),
+                "100"));
+        mPointsView.setText(mActivity.getString(R.string.points, mPoints));
     }
 }
