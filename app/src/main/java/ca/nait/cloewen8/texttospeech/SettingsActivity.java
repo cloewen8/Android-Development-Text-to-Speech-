@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.preference.PreferenceFragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -21,8 +22,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        startActivity(new Intent(this, GameActivity.class));
-        return true;
+        boolean performed;
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                performed = true;
+                break;
+            default:
+                performed = super.onOptionsItemSelected(item);
+        }
+        return performed;
     }
 
     /**
@@ -31,7 +41,6 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupActionBar() {
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
-            // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
