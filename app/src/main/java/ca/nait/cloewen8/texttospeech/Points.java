@@ -24,7 +24,6 @@ public class Points {
         mFoundSeq = new ArrayList<String[]>();
         mPicked = new ArrayList<String>();
 
-        // todo: Sort by length (longest first).
         for (String seq : mActivity.getResources().getStringArray(R.array.matches)) {
             mSeq.add(seq.split(" "));
         }
