@@ -42,15 +42,15 @@ public class SoundEffects implements SoundPool.OnLoadCompleteListener {
     private Pair<Float, Float> getVolume(float direction) {
         Pair<Float, Float> volume;
         SharedPreferences prefs = mActivity.getPreferences();
-        if (prefs.getBoolean(mActivity.getString(R.string.settings_key_stereoMono), true)) {
+        if (prefs.getBoolean(mActivity.getString(R.string.settings_key_stereoMono), false)) {
+            volume = new Pair<Float, Float>(0.3f, 0.3f);
+        } else {
             // Get the amount on either side of the direction ([0..1]).
             // 0 being left, 1 being right.
             float preferred = prefs.getFloat(
                 mActivity.getString(R.string.settings_key_direction),
                 0.5f);
             volume = new Pair<Float, Float>((1f - preferred)*(1f - direction)*0.3f, preferred*direction*0.3f);
-        } else {
-            volume = new Pair<Float, Float>(0.3f, 0.3f);
         }
         return volume;
     }

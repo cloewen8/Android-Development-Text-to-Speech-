@@ -1,5 +1,6 @@
 package ca.nait.cloewen8.texttospeech;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +33,7 @@ public class GameActivity extends AppCompatActivity
     private static final String TAG = "GameActivity";
     private static final Locale LANG = Locale.CANADA;
     private static final int CHECK_TTS_REQUEST = 0;
+    private static final double CLICK_DISTANCE = 15;
 
     private SoundEffects mSoundEffects;
 
@@ -40,6 +42,8 @@ public class GameActivity extends AppCompatActivity
     private TextToSpeech mTTS;
     private boolean mTTSLoaded;
     private Points mPoints;
+    private MotionEvent.PointerCoords mClickStart;
+    private MotionEvent.PointerCoords mClickEnd;
 
     private void bindViews() {
 
@@ -54,6 +58,8 @@ public class GameActivity extends AppCompatActivity
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mSoundEffects = new SoundEffects();
         mTTSLoaded = false;
+        mClickStart = new MotionEvent.PointerCoords();
+        mClickEnd = new MotionEvent.PointerCoords();
         bindViews();
 
         mPoints = new Points();
@@ -115,34 +121,51 @@ public class GameActivity extends AppCompatActivity
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        boolean performed;
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            String word = ((Button) v).getText().toString();
-            Log.i(TAG, "Word requested: " + word);
-
-            mPoints.addPicked(word);
-
-            // Get the direction to play audio from the touch position.
-            DisplayMetrics metrics = new DisplayMetrics();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                mWordsView.getDisplay().getMetrics(metrics);
-            } else {
-                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        boolean performed = false;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                event.getPointerCoords(0, mClickStart);
+                performed = true;
+                break;
             }
-            mSoundEffects.playButtonSound(event.getRawX()/metrics.widthPixels);
+            case MotionEvent.ACTION_UP: {
+                // Euclidean Distance is used to check if the user was trying to click or scroll.
+                event.getPointerCoords(0, mClickEnd);
+                if (Math.sqrt(Math.pow(mClickEnd.x - mClickStart.x, 2) +
+                    Math.pow(mClickEnd.y - mClickStart.y, 2)) < CLICK_DISTANCE)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null, word);
-            } else {
-                mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+                    onClick(v, event);
+                performed = true;
+                break;
             }
-            performed = true;
-        } else {
-            performed = v.performClick();
         }
         return performed;
+    }
+
+    private void onClick(View v, MotionEvent event) {
+        String word = ((Button) v).getText().toString();
+        Log.i(TAG, "Word requested: " + word);
+
+        mPoints.addPicked(word);
+
+        // Get the direction to play audio from the touch position.
+        DisplayMetrics metrics = new DisplayMetrics();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            mWordsView.getDisplay().getMetrics(metrics);
+        } else {
+            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        }
+        mSoundEffects.playButtonSound(event.getRawX()/metrics.widthPixels);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null, word);
+        } else {
+            mTTS.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+        }
+        v.performClick();
     }
 
     protected boolean hasLoaded() {
