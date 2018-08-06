@@ -5,17 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,6 @@ import android.widget.Button;
 import android.widget.GridView;
 
 import java.util.Locale;
-import java.util.prefs.Preferences;
 
 public class GameActivity extends AppCompatActivity
     implements TextToSpeech.OnInitListener,
@@ -45,11 +42,6 @@ public class GameActivity extends AppCompatActivity
     private MotionEvent.PointerCoords mClickStart;
     private MotionEvent.PointerCoords mClickEnd;
 
-    private void bindViews() {
-
-        mWordsView = findViewById(R.id.game_words_grid_view);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +52,7 @@ public class GameActivity extends AppCompatActivity
         mTTSLoaded = false;
         mClickStart = new MotionEvent.PointerCoords();
         mClickEnd = new MotionEvent.PointerCoords();
-        bindViews();
+        mWordsView = findViewById(R.id.game_words_grid_view);
 
         mPoints = new Points();
         mPoints.load(this);
@@ -178,6 +170,7 @@ public class GameActivity extends AppCompatActivity
             R.layout.item_word,
             getResources().getStringArray(R.array.words)) {
 
+            @SuppressLint({"ViewHolder", "ClickableViewAccessibility"})
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

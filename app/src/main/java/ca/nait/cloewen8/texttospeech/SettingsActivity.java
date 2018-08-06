@@ -1,8 +1,7 @@
 package ca.nait.cloewen8.texttospeech;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.app.ActionBar;
+import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
