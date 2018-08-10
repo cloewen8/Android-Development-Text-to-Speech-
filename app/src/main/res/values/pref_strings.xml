@@ -21,7 +21,7 @@
     <string name="settings_key_direction">direction</string>
     <string name="settings_title_direction">Sound Direction</string>
     <string name="settings_summary_direction">Which direction (left to right) should be preferred when playing sounds in stereo.</string>
-    <fraction name="settings_default_direction">0.5</fraction>
+    <item name="settings_default_direction" format="float" type="string">0.5</item>
 
     <string name="settings_title_gameplay">Gameplay</string>
 

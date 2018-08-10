@@ -1,20 +1,28 @@
 package ca.nait.cloewen8.texttospeech;
 
+import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.res.Resources;
+import android.util.Log;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Points {
     private static final int MAX_WORDS = 5;
 
     private GameActivity mActivity;
     private TextView mPointsView;
-    private long mPoints;
+    private int mPoints;
     private ArrayList<String[]> mSeq;
     private ArrayList<String[]> mFoundSeq;
     private ArrayList<String> mPicked;
+    private ValueAnimator mPointsAnim;
+    private Pattern mPointsRegex;
 
     protected void load(GameActivity activity) {
         mActivity = activity;
@@ -23,11 +31,13 @@ public class Points {
         mSeq = new ArrayList<String[]>();
         mFoundSeq = new ArrayList<String[]>();
         mPicked = new ArrayList<String>();
+        mPointsAnim = null;
+        mPointsRegex = Pattern.compile(activity.getString(R.string.points_regex));
 
         for (String seq : mActivity.getResources().getStringArray(R.array.matches)) {
             mSeq.add(seq.split(" "));
         }
-        addPoints(0);
+        mPointsView.setText(mActivity.getString(R.string.points, mPoints));
     }
 
     protected void addPicked(String word) {
@@ -78,6 +88,36 @@ public class Points {
         mPoints += earned*
             Integer.parseInt(mActivity.getPreferences().getString(mActivity.getString(R.string.settings_key_scoreMult),
                 "100"));
-        mPointsView.setText(mActivity.getString(R.string.points, mPoints));
+        animatePoints(mPoints);
+        // mPointsView.setText(mActivity.getString(R.string.points, mPoints));
+    }
+
+    private void animatePoints(int newAmount) {
+        // Cancel existing animations.
+        if (mPointsAnim != null)
+            mPointsAnim.cancel();
+
+        // Start animating the points (increasing to the new amount).
+        String text = mPointsView.getText().toString();
+        Log.d("Points", text);
+        Matcher match = mPointsRegex.matcher(text);
+        if (match.matches()) {
+            int oldAmount = Integer.parseInt(match.group(1));
+            mPointsAnim = ValueAnimator.ofInt(oldAmount, newAmount);
+            // Show 1 point every millisecond.
+            mPointsAnim.setDuration(newAmount - oldAmount);
+            // Stay linear to keep the points increase consistent.
+            mPointsAnim.setInterpolator(new LinearInterpolator());
+            mPointsAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    mPointsView.setText(mActivity.getString(R.string.points,
+                        Integer.parseInt(animation.getAnimatedValue().toString())));
+                }
+            });
+            mPointsAnim.start();
+        } else {
+            mPointsView.setText(mActivity.getString(R.string.points, mPoints));
+        }
     }
 }

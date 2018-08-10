@@ -14,7 +14,7 @@
             android:summary="@string/settings_summary_stereoMono"
             android:title="@string/settings_title_stereoMono" />
         <net.jayschwa.android.preference.SliderPreference
-            android:defaultValue="@fraction/settings_default_direction"
+            android:defaultValue="@string/settings_default_direction"
             android:key="@string/settings_key_direction"
             android:summary="@string/settings_summary_direction"
             android:title="@string/settings_title_direction" />

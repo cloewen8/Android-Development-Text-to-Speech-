@@ -3,6 +3,7 @@
     <string name="title">Android\nTalker</string>
     <string name="title_settings">Settings</string>
     <string name="points">%d points</string>
+    <string name="points_regex">([0-9]+) points</string>
     <string name="avatar_description">The main character, a green cylindrical bot.</string>
 
     <string-array name="words">

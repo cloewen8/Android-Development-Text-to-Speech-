@@ -13,7 +13,7 @@
         android:background="@android:color/holo_orange_dark"
         android:gravity="center"
         android:padding="@dimen/padding"
-        android:text="@string/points"
+        tools:text="@string/points"
         android:textColor="@android:color/holo_green_dark"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
