@@ -19,6 +19,14 @@
             android:summary="@string/settings_summary_direction"
             android:title="@string/settings_title_direction" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_title_animation">
+
+        <SwitchPreference
+            android:defaultValue="@bool/settings_default_animate"
+            android:key="@string/settings_key_animate"
+            android:summary="@string/settings_summary_animate"
+            android:title="@string/settings_title_animate" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_title_gameplay">
 
         <EditTextPreference

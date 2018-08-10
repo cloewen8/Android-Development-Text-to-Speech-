@@ -3,6 +3,7 @@ package ca.nait.cloewen8.texttospeech;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.animation.LinearInterpolator;
@@ -23,6 +24,7 @@ public class Points {
     private ArrayList<String> mPicked;
     private ValueAnimator mPointsAnim;
     private Pattern mPointsRegex;
+    private SharedPreferences mPrefs;
 
     protected void load(GameActivity activity) {
         mActivity = activity;
@@ -33,6 +35,7 @@ public class Points {
         mPicked = new ArrayList<String>();
         mPointsAnim = null;
         mPointsRegex = Pattern.compile(activity.getString(R.string.points_regex));
+        mPrefs = mActivity.getPreferences();
 
         for (String seq : mActivity.getResources().getStringArray(R.array.matches)) {
             mSeq.add(seq.split(" "));
@@ -101,7 +104,9 @@ public class Points {
         String text = mPointsView.getText().toString();
         Log.d("Points", text);
         Matcher match = mPointsRegex.matcher(text);
-        if (match.matches()) {
+        if (mPrefs.getBoolean(mActivity.getString(R.string.settings_key_animate), true) &&
+            match.matches()) {
+
             int oldAmount = Integer.parseInt(match.group(1));
             mPointsAnim = ValueAnimator.ofInt(oldAmount, newAmount);
             // Show 1 point every millisecond.

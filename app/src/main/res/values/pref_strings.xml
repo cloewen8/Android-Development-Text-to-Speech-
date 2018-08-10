@@ -23,6 +23,13 @@
     <string name="settings_summary_direction">Which direction (left to right) should be preferred when playing sounds in stereo.</string>
     <item name="settings_default_direction" format="float" type="string">0.5</item>
 
+    <string name="settings_title_animation">Animation</string>
+
+    <string name="settings_key_animate">animate</string>
+    <string name="settings_title_animate">Animate</string>
+    <string name="settings_summary_animate">Should animations play.</string>
+    <bool name="settings_default_animate">true</bool>
+
     <string name="settings_title_gameplay">Gameplay</string>
 
     <string name="settings_key_scoreMult">scoreMult</string>
