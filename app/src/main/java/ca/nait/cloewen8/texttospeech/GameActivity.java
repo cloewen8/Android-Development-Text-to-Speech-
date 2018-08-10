@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -138,7 +139,7 @@ public class GameActivity extends AppCompatActivity
     }
 
     private void onClick(View v, MotionEvent event) {
-        String word = ((Button) v).getText().toString();
+        String word = v.getTag().toString();
         Log.i(TAG, "Word requested: " + word);
 
         mPoints.addPicked(word);
@@ -166,9 +167,11 @@ public class GameActivity extends AppCompatActivity
 
     protected void finishLoading() {
         // Add the word buttons.
+        Resources res = getResources();
+        final String[] phonetics = res.getStringArray(R.array.phonetics);
         mWordsView.setAdapter(new ArrayAdapter<String>(this,
             R.layout.item_word,
-            getResources().getStringArray(R.array.words)) {
+            res.getStringArray(R.array.words)) {
 
             @SuppressLint({"ViewHolder", "ClickableViewAccessibility"})
             @NonNull
@@ -177,6 +180,7 @@ public class GameActivity extends AppCompatActivity
                 LayoutInflater inflator = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflator.inflate(R.layout.item_word, parent, false);
                 Button button = view.findViewById(R.id.word_button);
+                button.setTag(phonetics[position]);
                 button.setText(getItem(position));
                 button.setOnTouchListener(GameActivity.this);
                 return view;

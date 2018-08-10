@@ -28,6 +28,28 @@
         <item>Pixel</item>
         <item>Was</item>
     </string-array>
+    <string-array name="phonetics">
+        <item>It</item>
+        <item>Is</item>
+        <item>Ae</item>
+        <item>Feature</item>
+        <item>So</item>
+        <item>New</item>
+        <item>And</item>
+        <item>Shiny</item>
+        <item>Andhroid</item>
+        <item>Better</item>
+        <item>Than</item>
+        <item>Apple</item>
+        <item>I</item>
+        <item>Like</item>
+        <item>This</item>
+        <item>Project</item>
+        <item>The</item>
+        <item>Works</item>
+        <item>Pixel</item>
+        <item>Was</item>
+    </string-array>
     <string-array name="matches">
         <item>apple works</item>
         <item>better feature</item>

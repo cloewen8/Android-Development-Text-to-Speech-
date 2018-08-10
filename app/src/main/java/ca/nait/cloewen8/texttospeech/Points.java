@@ -40,7 +40,7 @@ public class Points {
         for (String seq : mActivity.getResources().getStringArray(R.array.matches)) {
             mSeq.add(seq.split(" "));
         }
-        mPointsView.setText(mActivity.getString(R.string.points, mPoints));
+        setView(mPoints);
     }
 
     protected void addPicked(String word) {
@@ -92,7 +92,11 @@ public class Points {
             Integer.parseInt(mActivity.getPreferences().getString(mActivity.getString(R.string.settings_key_scoreMult),
                 "100"));
         animatePoints(mPoints);
-        // mPointsView.setText(mActivity.getString(R.string.points, mPoints));
+        // setView(mPoints);
+    }
+
+    private void setView(int points) {
+        mPointsView.setText(mActivity.getString(R.string.points, points));
     }
 
     private void animatePoints(int newAmount) {
@@ -116,13 +120,12 @@ public class Points {
             mPointsAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    mPointsView.setText(mActivity.getString(R.string.points,
-                        Integer.parseInt(animation.getAnimatedValue().toString())));
+                    setView(Integer.parseInt(animation.getAnimatedValue().toString()));
                 }
             });
             mPointsAnim.start();
         } else {
-            mPointsView.setText(mActivity.getString(R.string.points, mPoints));
+            setView(mPoints);
         }
     }
 }
